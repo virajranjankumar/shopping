@@ -1,0 +1,21 @@
+{% macro textedit(name, placeholder) %}
+<div class="ampstart-input inline-block relative m0 p0 mb3 ">
+  <input type="text" value="" name="<$ name $>" id="<$ name $>" class="block border-none p0 m0" placeholder="<$ placeholder $>">
+  <label for="<$ name $>" class="absolute top-0 right-0 bottom-0 left-0" aria-hidden="true"><$ placeholder $></label>
+</div>
+{% endmacro %}
+
+{% macro radio(name, items) %}
+{% for item in items %}
+<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on=<$ item.onChange | safe $>>
+    <input type="radio" value="" name="<$ name $>" id="<$ name $>-<$ loop.index $>" class="relative" {% if item.selected %}checked=""{% endif %}>
+    <label for="<$ name $>-<$ loop.index $>" class="" aria-hidden="true"><$ item.label $></label>
+</div>
+{% endfor %}
+{% endmacro %}
+
+{% macro range(name, min = "1", max = 1000, value = 100, onChange) %}
+<div class="ampstart-input inline-block relative m0 p0 mb3 " on=<$ onChange | safe $>>
+  <input type="range" name="<$ name $>" id="<$ name $>" min="<$ min $>" max="<$ max $>" value="<$ value $>" [value]="product.price" class="block border-none p0 m0">
+</div>
+{% endmacro %}

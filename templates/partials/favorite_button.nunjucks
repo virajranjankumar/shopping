@@ -1,0 +1,36 @@
+<amp-state id="favorite"
+  credentials="include"
+  src="//localhost:3000/favorite">
+</amp-state>
+<form
+    method="post"
+    action-xhr="//localhost:3000/favorite"
+    target="_top"
+    on="submit:AMP.setState({favorite: !favorite}),favorite-failed-message.hide;
+        submit-error:AMP.setState({favorite: !favorite}),favorite-failed-message.show">
+    <amp-list width="56"
+        height="56"
+        credentials="include"
+        items="."
+        single-item
+        src="//localhost:3000/favorite"
+        binding="always">
+        <template type="amp-mustache">
+            <input type="submit"
+            name="viraj"
+            [value]="favorite ? '♥️' : '♡'"
+            value='♡'
+            aria-label="Favorite Toggle">
+        </template>
+        <div placeholder>
+            <input type="submit" disabled
+            value='♡'
+            aria-label="favorite placeholder">
+        </div>
+    </amp-list>
+    <div id="favorite-failed-message" hidden>Error: Could not favorite.
+    <div on="tap:favorite-failed-message.hide"
+        tabindex="0"
+        role="button">CLOSE</div>
+    </div>
+</form>

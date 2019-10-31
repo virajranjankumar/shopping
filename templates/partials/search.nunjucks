@@ -1,0 +1,66 @@
+<amp-state id="generalInventory"
+    [src]="'//localhost:3000/autocomplete?_page=1&_limit=10&q=' + searchTerm"
+    src="//localhost:3000/autocomplete?_page=1&_limit=10"></amp-state>
+<form class="sample-form"
+  method="post"
+  target="_top">
+  <amp-autocomplete filter="substring" min-characters="0" filter-value="description"
+    [src]="manualFilterData"
+    on="select:AMP.setState({products: { query: event.value }});">
+    <input type="search" name="product"
+      on="input-debounced:AMP.setState({
+        manualFilterData: event.value.length == 0 ? initialInventory : generalInventory,
+        searchTerm: event.value
+      });
+      ">
+    <amp-state id="initialInventory">
+      <script type="application/json">
+        {
+          "items": [{
+            "isInitial": "true",
+            "description": "apple"
+          }, {
+            "isInitial": "true",
+            "description": "grapes"
+          }, {
+            "isInitial": "true",
+            "description": "whole milk"
+          }, {
+            "isInitial": "true",
+            "description": "banana"
+          }]
+        }
+      </script>
+    </amp-state>
+    <template type="amp-mustache">
+      {{#isInitial}}
+        <div class="product"
+          data-value="{{description}}">
+          <amp-img class="trending"
+            width="24"
+            height="24"
+            src="../img/logos/trending.png"></amp-img>
+          <span class="name-and-description">{{description}}</span>
+        </div>
+      {{/isInitial}}
+      {{^isInitial}}
+        <div data-value="{{name}}"
+          class="product">
+            <amp-img class="trending"
+                width="24"
+                height="24"
+                src="../img/logos/{{source}}.png"></amp-img>
+            <span class="name-and-description"><b>{{name}}</b> <i>{{description}}</i></span>
+        </div>
+      {{/isInitial}}
+    </template>
+  </amp-autocomplete>
+  <div submit-success>
+    <template type="amp-mustache">
+      Searching for <strong>{{product}}</strong>.
+    </template>
+  </div>
+  <div submit-error>
+    Error!
+  </div>
+</form>

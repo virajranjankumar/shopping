@@ -1,16 +1,20 @@
 <amp-state id="generalInventory"
-    [src]="'//localhost:3000/autocomplete?_page=1&_limit=10&q=' + searchTerm"
-    src="//localhost:3000/autocomplete?_page=1&_limit=10"></amp-state>
+    [src]="'//localhost:3000/autocomplete?_limit=10&description_like=' + searchTerm"
+    src="//localhost:3000/autocomplete?_limit=10"></amp-state>
 <form class="sample-form"
   method="post"
+  action-xhr="//localhost:3000/echo"
   target="_top">
-  <amp-autocomplete filter="substring" min-characters="0" filter-value="description"
+  <amp-autocomplete filter="substring" min-characters="3" filter-value="description"
     [src]="manualFilterData"
-    on="select:AMP.setState({products: { query: event.value }});">
+    on="select:AMP.setState({
+          products: { query: event.value, source: 'all', category: 'all' }
+        });">
     <input type="search" name="product"
       on="input-debounced:AMP.setState({
         manualFilterData: event.value.length == 0 ? initialInventory : generalInventory,
-        searchTerm: event.value
+        searchTerm: event.value,
+        products: { query: event.value, source: 'all', category: 'all' }
       });
       ">
     <amp-state id="initialInventory">
@@ -44,7 +48,7 @@
         </div>
       {{/isInitial}}
       {{^isInitial}}
-        <div data-value="{{name}}"
+        <div data-value="{{description}}"
           class="product">
             <amp-img class="trending"
                 width="24"
@@ -56,9 +60,7 @@
     </template>
   </amp-autocomplete>
   <div submit-success>
-    <template type="amp-mustache">
-      Searching for <strong>{{product}}</strong>.
-    </template>
+    <template type="amp-mustache"></template>
   </div>
   <div submit-error>
     Error!

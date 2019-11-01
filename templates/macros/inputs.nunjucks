@@ -8,10 +8,17 @@
 {% macro radio(name, items) %}
 {% for item in items %}
 <div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on=<$ item.onChange | safe $>>
-    <input type="radio" value="" name="<$ name $>" id="<$ name $>-<$ loop.index $>" class="relative" {% if item.selected %}checked=""{% endif %}>
+    <input type="radio" value="" name="<$ name $>" id="<$ name $>-<$ loop.index $>" class="relative" {% if item.selected %}checked=""{% endif %} [checked]="products.<$ name $> == '<$ item.label | lower $>' ? checked : '' ">
     <label for="<$ name $>-<$ loop.index $>" class="" aria-hidden="true"><$ item.label $></label>
 </div>
 {% endfor %}
+{% endmacro %}
+
+{% macro option(name, items) %}
+{% for item in items %}
+<option value="<$ item.value $>" {% if item.selected %}selected="selected"{% endif %} [selected]="products.<$ name $> == '<$ item.value $>' ? selected : '' "><$ item.label $></option>
+{% endfor %}
+
 {% endmacro %}
 
 {% macro range(name, min = "1", max = 1000, value = 100, onChange) %}

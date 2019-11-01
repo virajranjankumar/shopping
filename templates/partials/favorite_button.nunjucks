@@ -6,6 +6,7 @@
     method="post"
     action-xhr="//localhost:3000/favorite"
     target="_top"
+    action-xhr="/echo"
     on="submit:AMP.setState({favorite: !favorite}),favorite-failed-message.hide;
         submit-error:AMP.setState({favorite: !favorite}),favorite-failed-message.show">
     <amp-list width="56"

@@ -11,70 +11,70 @@
   <amp-state id="products">
     <script type="application/json">
       {
-        "category": "all",
         "filter": "desc",
         "source": "all",
         "query": "",
-        "price": 500,
-        "pageNumber": 1
+        "price": 15699,
+        "pageNumber": 0,
+        "limit": 9
       }
     </script>
   </amp-state>
-    <amp-img class="commerce-listing-banner xs-hide sm-hide" src="../img/e-commerce/wide-listings-hero.jpg" width="2560" height="400" layout="responsive" alt="Product listing" noloading=""><div placeholder="" class="commerce-loader"></div></amp-img>
+  <!--
+  <amp-img class="commerce-listing-banner xs-hide sm-hide" src="../img/e-commerce/wide-listings-hero.jpg" width="2560" height="400" layout="responsive" alt="Product listing" noloading="">
+    <div placeholder="" class="commerce-loader"></div>
+  </amp-img>-->
   <section class="commerce-listing-content mx-auto flex flex-wrap pb4">
     <div class="col-3 xs-hide sm-hide flex flex-column">
       <div class="commerce-side-panel pt4 pr4 self-center">
-        <h2 class="h5 mb2">Categories</h2>
-          <$ i.radio("category", list_categories.slice(0, 5)) $>
-        <h2 class="h5 mb2">Malls</h2>
+        <h2 class="h5 mb2">From</h2>
           <$ i.radio("source", list_sources) $>
-        <h2 class="h5 mb2">Price - less than <span [text]="products.price">500</span></h2>
-          <$ i.range("price", min="1", max="1000", value="500", onChange="'change: AMP.setState({products: {price: event.value, pageNumber: 1}})'") $>
+        <h2 class="h5 mb2">Price &lt; <span [text]="products.price">15699</span></h2>
+          <$ i.range("price", min="1", max="15700", value="15699", onChange="'change: AMP.setState({products: {price: event.value, pageNumber: 0}})'") $>
       </div>
     </div>
-
     <div class="col-12 md-col-7 pt2 pb3 md-px4 md-pt1 md-pb7">
       <div class="md-commerce-header relative md-flex flex-wrap items-center md-mx0 md-mb2">
         <h1 class="h3 mb2 md-mt2 md-mb2 md-ml0 flex-auto px2">Products</h1>
         <div class="commerce-listing-filters pt2 pb2 mb3 md-mb0">
           <div class="commerce-select-wrapper inline-block md-mr1 pl2 md-hide lg-hide">
-            <label for="categories" class="bold caps h6 md-h7">Show:</label>
-            <select name="categories" id="categories" class="commerce-select h6 md-h7" on="change: AMP.setState({products: {category: event.value}})">
-              {% for category in list_categories.slice(0, 5) -%}
-                <option value="<$ category.label $>"><$ category.label $></option>
-              {%- endfor %}
+            <label for="source" class="bold caps h6 md-h7">From:</label>
+            <select name="source" id="source" class="commerce-select h6 md-h7" on="change: AMP.setState({products: {source: event.value, pageNumber: 0}})">
+            <$ i.option("source", list_sources) $>
             </select>
           </div>
           
-          <div class="commerce-select-wrapper inline-block  ">
+          <div class="commerce-select-wrapper inline-block md-mr1 pl2">
           {% include "partials/search.nunjucks" %}
           </div>
-          <div class="commerce-select-wrapper inline-block  ">
+          <div class="commerce-select-wrapper inline-block md-mr1 pl2">
             <label for="price" class="bold caps h6 md-h7">Sort by:</label>
             <select name="price" id="price" class="commerce-select h6 md-h7" on="change: AMP.setState({products: {filter: event.value}})">
-              {% for value, label in product_listing.prices -%}
-                <option value="<$ value $>"><$ label $></option>
-              {%- endfor %}
+              <$ i.option("price", product_listing) $>
             </select>
           </div>
         </div>
       </div>
       <amp-list
+        id="list"
         class="mx1 md-mxn1" 
         [src]="'//localhost:3000/' + 
         products.source + 
         '?_sort=price' + 
         '&_order=' + products.filter + 
         '&_page=' + products.pageNumber +
-        '&_limit=10' + 
+        '&_limit=' + products.limit +
         '&price_lte=' + products.price +
-        (products.category == 'all' ? '' : '&category_like=' + products.category) +
         (products.query == '' ? '' : '&q=' + products.query)" 
-        src="//localhost:3000/all?_page=1&_limit=10" 
-        height="400" width="300" layout="responsive"
+        src="//localhost:3000/all?_sort=price&_page=0&_limit=9&_order=desc" 
+        height="1000" width="800" 
+        layout="responsive"
         single-item reset-on-refresh binding="no"
-        items=".">
-        <template type="amp-mustache">
+        items="."
+        load-more="auto"
+        load-more-bookmark="next">
+        <template type="amp-mustache"
+        credentials="include">
           {{#items}}
           <div class="commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
             <div class="flex flex-column justify-between">
@@ -83,25 +83,20 @@
                 <h2 class="commerce-listing-product-name h6">{{ name }}</h2>
                 {{ description }}
               </div>
-              <div class="h6 mt1">{{ price }} AED</div>
-                <form id="order" method="POST" action-xhr="/api/add-to-cart" target="_top" class="flex flex-wrap">
-                  <div class="button-wrapper">
-                      <input type="submit" class="ampstart-btn ampstart-btn-secondary caps" name="add-to-cart" value="add to cart">
-                      <input type="hidden" name="productId" value="<%Main_Id%>">
-                      <input type="hidden" name="categoryId" value="<%CategoryId%>">
-                      <input type="hidden" name="name" value="<%Product_Title%>">
-                      <input type="hidden" name="price" value="<%DefaultPrice%>" [value]="product[product.selectedColor].sizes[product.selectedSize].discountPrice">
-                      <input type="hidden" name="imgUrl" value="<%& All_Colors.0.Photo%>" [value]="product[product.selectedColor].large.image1">
-                  </div>
-                </form>
-
+              <div class="h6 mt1">{{ price }} AED
+                {{#url}}
+                  <a href="{{ url }}" target="_blank" >
+                    <amp-img class="open-icon" src="../img/logos/{{ source }}.png" width="20" height="20" />
+                  </a>
+                {{/url}}
+              </div>
             </div>
           </div>
           {{/items}}
           {{^items}}
             <div class="flex flex-column justify-between">
               <div>
-                <h2 class="commerce-listing-product-name h6">No items founds.</h2>
+                <h2 class="commerce-listing-product-name h6">No items founds<span [text]="' in' + products.source"></span></h2>
               </div>
             </div>
           {{/items}}
@@ -109,20 +104,18 @@
         <div overflow>
           <button class="ampstart-btn ampstart-btn-secondary caps">Show more</button>
         </div>
+        <div fallback>Failed to load data. Please try again later.</div>
+        <div placeholder>Loading ...</div>
+        <amp-list-load-more load-more-failed>
+        </amp-list-load-more>
+        <amp-list-load-more load-more-end>
+          <div class="flex flex-column justify-between">
+            <div>
+              <h2 class="commerce-listing-product-name h6">No more items to display</h2>
+            </div>
+          </div>
+        </amp-list-load-more>
       </amp-list>
-      <div class="navigation">
-        <button class="prev ampstart-btn ampstart-btn-secondary caps"
-          hidden
-          [hidden]="products.pageNumber < 2"
-          on="tap: AMP.setState({products: { pageNumber: products.pageNumber - 1 }})">
-          Previous
-        </button>
-        <button class="next ampstart-btn ampstart-btn-secondary caps"
-          [hidden]="items ? products.pageNumber >= items.length : false"
-          on="tap: AMP.setState({products: { pageNumber: products.pageNumber ? products.pageNumber + 1 : 2 }})">
-          Next
-        </button>
-      </div>
     </div>
   </section>
   </main>

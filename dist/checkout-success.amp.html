@@ -13,20 +13,29 @@
   
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <meta name="amp-google-client-id-api" content="googleanalytics">
-
-  <script async="" src="https://cdn.ampproject.org/v0.js"></script>
+  <meta name="amp-experiments-opt-in" content="experiment-a,experiment-b">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
   
-<style amp-boilerplate="">  body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
+<style amp-boilerplate="">.open-icon {
+  margin-right: 20px;
+  float: right;
+}
+body{
+    -webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    -moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    -ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    animation:-amp-start 8s steps(1,end) 0s 1 normal both
+  }@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
 </style>
 <noscript>
 <style amp-boilerplate="">body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style>
 </noscript>
-<script custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js" async=""></script>
-<script custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js" async=""></script>
-<script custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js" async=""></script>
-<script custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js" async=""></script>
-<script custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js" async=""></script>
-<script custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js" async=""></script>
+<script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+<script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+<script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+<script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+<script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
+<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
 <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
 <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
 <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
@@ -46,21 +55,6 @@
       <a href="landing.amp.html" class="text-decoration-none inline-block mx-auto ampstart-headerbar-home-link mb1 md-mb0 ">
         <amp-img src="../img/e-commerce/logo.png" width="96" height="27" layout="fixed" class="my0 mx-auto " alt=""></amp-img>
       </a>
-    <!--
-      TODO: currently "fixeditems" is an array, therefore it's not possible to
-      add additional classes to it. An alternative solution would be to make it
-      an oject, with a "classes" and "items" sub-properties:
-     "fixeditems": {
-       "classes": "col-3",
-       "items": [{
-         "link": {
-           "url": "mailto:contact@lune.com",
-           "text": "—contact@lune.com",
-           "classes": "xs-small sm-hide h6 bold"
-         }
-       }]
-     }
-     -->
     <div class="ampstart-headerbar-fixed center m0 p0 flex justify-center nowrap absolute top-0 right-0 pt2 pr3">
       <div class="mr2">
       </div>
@@ -128,6 +122,7 @@
 <footer class="commerce-footer center">
   <nav class="mx-auto md-mb0 md-pt5 md-pb5">
     <ul class="list-reset flex flex-wrap my0 md-pl4 md-pr4 md-mxn4">
+    <!--
       <li class="pt3 md-pt0 md-px4 col-12 md-col-3 lg-col-2">
           <h2 class="commerce-footer-header h7 pb2">About us</h2>
           <ul class="list-reset pb3 md-mx0">
@@ -142,19 +137,20 @@
               </li>
           </ul>
         <hr class="md-hide lg-hide col-12 mx0">
-      </li>
+      </li>-->
       <li class="pt3 md-pt0 md-px4 col-12 md-col-3 lg-col-2">
           <h2 class="commerce-footer-header h7 pb2">Contact Us</h2>
           <ul class="list-reset pb3 md-mx0">
               <li>
-                <a class="text-decoration-none" href="tel:+440000000000">+44(0)000 000 0000</a>
+                <a class="text-decoration-none" href="tel:+971503314578">+971 50 3314578</a>
               </li>
               <li>
-                <a class="text-decoration-none" href="mailto:info@BS-LDN">info@BS-LDN</a>
+                <a class="text-decoration-none" href="mailto:viraj.ranjankumar+rav@gmail.com">viraj.ranjankumar@gmail.com</a>
               </li>
+              <!--
               <li>
                 <a class="text-decoration-none" href="#">Find a Store</a>
-              </li>
+              </li>-->
           </ul>
         <hr class="md-hide lg-hide col-12 mx0">
       </li>

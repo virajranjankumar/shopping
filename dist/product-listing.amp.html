@@ -13,20 +13,29 @@
   
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <meta name="amp-google-client-id-api" content="googleanalytics">
-
-  <script async="" src="https://cdn.ampproject.org/v0.js"></script>
+  <meta name="amp-experiments-opt-in" content="experiment-a,experiment-b">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
   
-<style amp-boilerplate="">  body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
+<style amp-boilerplate="">.open-icon {
+  margin-right: 20px;
+  float: right;
+}
+body{
+    -webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    -moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    -ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    animation:-amp-start 8s steps(1,end) 0s 1 normal both
+  }@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
 </style>
 <noscript>
 <style amp-boilerplate="">body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style>
 </noscript>
-<script custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js" async=""></script>
-<script custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js" async=""></script>
-<script custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js" async=""></script>
-<script custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js" async=""></script>
-<script custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js" async=""></script>
-<script custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js" async=""></script>
+<script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+<script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+<script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+<script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+<script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
+<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
 <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
 <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
 <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
@@ -46,21 +55,6 @@
       <a href="landing.amp.html" class="text-decoration-none inline-block mx-auto ampstart-headerbar-home-link mb1 md-mb0 ">
         <amp-img src="../img/e-commerce/logo.png" width="96" height="27" layout="fixed" class="my0 mx-auto " alt=""></amp-img>
       </a>
-    <!--
-      TODO: currently "fixeditems" is an array, therefore it's not possible to
-      add additional classes to it. An alternative solution would be to make it
-      an oject, with a "classes" and "items" sub-properties:
-     "fixeditems": {
-       "classes": "col-3",
-       "items": [{
-         "link": {
-           "url": "mailto:contact@lune.com",
-           "text": "—contact@lune.com",
-           "classes": "xs-small sm-hide h6 bold"
-         }
-       }]
-     }
-     -->
     <div class="ampstart-headerbar-fixed center m0 p0 flex justify-center nowrap absolute top-0 right-0 pt2 pr3">
       <div class="mr2">
       </div>
@@ -115,116 +109,108 @@
   <amp-state id="products">
     <script type="application/json">
       {
-        "category": "all",
         "filter": "desc",
         "source": "all",
         "query": "",
-        "price": 500,
-        "pageNumber": 1
+        "price": 15699,
+        "pageNumber": 0,
+        "limit": 9
       }
     </script>
   </amp-state>
-    <amp-img class="commerce-listing-banner xs-hide sm-hide" src="../img/e-commerce/wide-listings-hero.jpg" width="2560" height="400" layout="responsive" alt="Product listing" noloading=""><div placeholder="" class="commerce-loader"></div></amp-img>
+  <!--
+  <amp-img class="commerce-listing-banner xs-hide sm-hide" src="../img/e-commerce/wide-listings-hero.jpg" width="2560" height="400" layout="responsive" alt="Product listing" noloading="">
+    <div placeholder="" class="commerce-loader"></div>
+  </amp-img>-->
   <section class="commerce-listing-content mx-auto flex flex-wrap pb4">
     <div class="col-3 xs-hide sm-hide flex flex-column">
       <div class="commerce-side-panel pt4 pr4 self-center">
-        <h2 class="h5 mb2">Categories</h2>
+        <h2 class="h5 mb2">From</h2>
           
 
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {category:"all", pageNumber: 1}})'>
-    <input type="radio" value="" name="category" id="category-1" class="relative" checked="">
-    <label for="category-1" class="" aria-hidden="true">All</label>
-</div>
-
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {category:"Large Appliances", pageNumber: 1}})'>
-    <input type="radio" value="" name="category" id="category-2" class="relative" >
-    <label for="category-2" class="" aria-hidden="true">Large Appliances</label>
-</div>
-
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {category:"Food Preparation", pageNumber: 1}})'>
-    <input type="radio" value="" name="category" id="category-3" class="relative" >
-    <label for="category-3" class="" aria-hidden="true">Food Preparation</label>
-</div>
-
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {category:"Toothbrushes", pageNumber: 1}})'>
-    <input type="radio" value="" name="category" id="category-4" class="relative" >
-    <label for="category-4" class="" aria-hidden="true">Toothbrushes</label>
-</div>
-
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {category:"Tooth Brush electrical", pageNumber: 1}})'>
-    <input type="radio" value="" name="category" id="category-5" class="relative" >
-    <label for="category-5" class="" aria-hidden="true">Tooth Brush electrical</label>
-</div>
-
-
-        <h2 class="h5 mb2">Malls</h2>
-          
-
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"all", pageNumber: 1}})'>
-    <input type="radio" value="" name="source" id="source-1" class="relative" checked="">
+<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"all", pageNumber: 0}})'>
+    <input type="radio" value="" name="source" id="source-1" class="relative" checked="" [checked]="products.source == 'all' ? checked : '' ">
     <label for="source-1" class="" aria-hidden="true">All</label>
 </div>
 
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"lulu", pageNumber: 1}})'>
-    <input type="radio" value="" name="source" id="source-2" class="relative" >
+<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"lulu", pageNumber: 0}})'>
+    <input type="radio" value="" name="source" id="source-2" class="relative"  [checked]="products.source == 'lulu' ? checked : '' ">
     <label for="source-2" class="" aria-hidden="true">Lulu</label>
 </div>
 
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"carrefour", pageNumber: 1}})'>
-    <input type="radio" value="" name="source" id="source-3" class="relative" >
+<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"carrefour", pageNumber: 0}})'>
+    <input type="radio" value="" name="source" id="source-3" class="relative"  [checked]="products.source == 'carrefour' ? checked : '' ">
     <label for="source-3" class="" aria-hidden="true">Carrefour</label>
 </div>
 
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"choithram", pageNumber: 1}})'>
-    <input type="radio" value="" name="source" id="source-4" class="relative" >
+<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"choithrams", pageNumber: 0}})'>
+    <input type="radio" value="" name="source" id="source-4" class="relative"  [checked]="products.source == 'choithrams' ? checked : '' ">
     <label for="source-4" class="" aria-hidden="true">Choithrams</label>
 </div>
 
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"unioncoop", pageNumber: 1}})'>
-    <input type="radio" value="" name="source" id="source-5" class="relative" >
+<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"unioncoop", pageNumber: 0}})'>
+    <input type="radio" value="" name="source" id="source-5" class="relative"  [checked]="products.source == 'union coop' ? checked : '' ">
     <label for="source-5" class="" aria-hidden="true">Union Coop</label>
 </div>
 
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"emax", pageNumber: 1}})'>
-    <input type="radio" value="" name="source" id="source-6" class="relative" >
+<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {source:"emax", pageNumber: 0}})'>
+    <input type="radio" value="" name="source" id="source-6" class="relative"  [checked]="products.source == 'emax' ? checked : '' ">
     <label for="source-6" class="" aria-hidden="true">emax</label>
 </div>
 
 
-        <h2 class="h5 mb2">Price - less than <span [text]="products.price">500</span></h2>
+        <h2 class="h5 mb2">Price &lt; <span [text]="products.price">15699</span></h2>
           
-<div class="ampstart-input inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {price: event.value, pageNumber: 1}})'>
-  <input type="range" name="price" id="price" min="1" max="1000" value="500" [value]="product.price" class="block border-none p0 m0">
+<div class="ampstart-input inline-block relative m0 p0 mb3 " on='change: AMP.setState({products: {price: event.value, pageNumber: 0}})'>
+  <input type="range" name="price" id="price" min="1" max="15700" value="15699" [value]="product.price" class="block border-none p0 m0">
 </div>
 
       </div>
     </div>
-
     <div class="col-12 md-col-7 pt2 pb3 md-px4 md-pt1 md-pb7">
       <div class="md-commerce-header relative md-flex flex-wrap items-center md-mx0 md-mb2">
         <h1 class="h3 mb2 md-mt2 md-mb2 md-ml0 flex-auto px2">Products</h1>
         <div class="commerce-listing-filters pt2 pb2 mb3 md-mb0">
           <div class="commerce-select-wrapper inline-block md-mr1 pl2 md-hide lg-hide">
-            <label for="categories" class="bold caps h6 md-h7">Show:</label>
-            <select name="categories" id="categories" class="commerce-select h6 md-h7" on="change: AMP.setState({products: {category: event.value}})">
-              <option value="All">All</option><option value="Large Appliances">Large Appliances</option><option value="Food Preparation">Food Preparation</option><option value="Toothbrushes">Toothbrushes</option><option value="Tooth Brush electrical">Tooth Brush electrical</option>
+            <label for="source" class="bold caps h6 md-h7">From:</label>
+            <select name="source" id="source" class="commerce-select h6 md-h7" on="change: AMP.setState({products: {source: event.value, pageNumber: 0}})">
+            
+
+<option value="all" selected="selected" [selected]="products.source == 'all' ? selected : '' ">All</option>
+
+<option value="lulu"  [selected]="products.source == 'lulu' ? selected : '' ">Lulu</option>
+
+<option value="carrefour"  [selected]="products.source == 'carrefour' ? selected : '' ">Carrefour</option>
+
+<option value="choithrams"  [selected]="products.source == 'choithrams' ? selected : '' ">Choithrams</option>
+
+<option value="unioncoop"  [selected]="products.source == 'unioncoop' ? selected : '' ">Union Coop</option>
+
+<option value="emax"  [selected]="products.source == 'emax' ? selected : '' ">emax</option>
+
+
+
             </select>
           </div>
           
-          <div class="commerce-select-wrapper inline-block  ">
+          <div class="commerce-select-wrapper inline-block md-mr1 pl2">
           <amp-state id="generalInventory"
-    [src]="'//localhost:3000/autocomplete?_page=1&_limit=10&q=' + searchTerm"
-    src="//localhost:3000/autocomplete?_page=1&_limit=10"></amp-state>
+    [src]="'//localhost:3000/autocomplete?_limit=10&description_like=' + searchTerm"
+    src="//localhost:3000/autocomplete?_limit=10"></amp-state>
 <form class="sample-form"
   method="post"
+  action-xhr="//localhost:3000/echo"
   target="_top">
-  <amp-autocomplete filter="substring" min-characters="0" filter-value="description"
+  <amp-autocomplete filter="substring" min-characters="3" filter-value="description"
     [src]="manualFilterData"
-    on="select:AMP.setState({products: { query: event.value }});">
+    on="select:AMP.setState({
+          products: { query: event.value, source: 'all', category: 'all' }
+        });">
     <input type="search" name="product"
       on="input-debounced:AMP.setState({
         manualFilterData: event.value.length == 0 ? initialInventory : generalInventory,
-        searchTerm: event.value
+        searchTerm: event.value,
+        products: { query: event.value, source: 'all', category: 'all' }
       });
       ">
     <amp-state id="initialInventory">
@@ -258,7 +244,7 @@
         </div>
       {{/isInitial}}
       {{^isInitial}}
-        <div data-value="{{name}}"
+        <div data-value="{{description}}"
           class="product">
             <amp-img class="trending"
                 width="24"
@@ -270,55 +256,70 @@
     </template>
   </amp-autocomplete>
   <div submit-success>
-    <template type="amp-mustache">
-      Searching for <strong>{{product}}</strong>.
-    </template>
+    <template type="amp-mustache"></template>
   </div>
   <div submit-error>
     Error!
   </div>
 </form>
           </div>
-          <div class="commerce-select-wrapper inline-block  ">
+          <div class="commerce-select-wrapper inline-block md-mr1 pl2">
             <label for="price" class="bold caps h6 md-h7">Sort by:</label>
             <select name="price" id="price" class="commerce-select h6 md-h7" on="change: AMP.setState({products: {filter: event.value}})">
-              <option value="desc">Price: High-Low</option><option value="asc">Price: Low-High</option>
+              
+
+<option value="desc"  [selected]="products.price == 'desc' ? selected : '' ">Price: High-Low</option>
+
+<option value="asc"  [selected]="products.price == 'asc' ? selected : '' ">Price: Low-High</option>
+
+
+
             </select>
           </div>
         </div>
       </div>
       <amp-list
+        id="list"
         class="mx1 md-mxn1" 
         [src]="'//localhost:3000/' + 
         products.source + 
         '?_sort=price' + 
         '&_order=' + products.filter + 
         '&_page=' + products.pageNumber +
-        '&_limit=10' + 
+        '&_limit=' + products.limit +
         '&price_lte=' + products.price +
-        (products.category == 'all' ? '' : '&category_like=' + products.category) +
         (products.query == '' ? '' : '&q=' + products.query)" 
-        src="//localhost:3000/all?_page=1&_limit=10" 
-        height="400" width="300" layout="responsive"
+        src="//localhost:3000/all?_sort=price&_page=0&_limit=9&_order=desc" 
+        height="1000" width="800" 
+        layout="responsive"
         single-item reset-on-refresh binding="no"
-        items=".">
-        <template type="amp-mustache">
+        items="."
+        load-more="auto"
+        load-more-bookmark="next">
+        <template type="amp-mustache"
+        credentials="include">
           {{#items}}
-          <a href="product-details.amp.html" target="_self" class="commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
+          <div class="commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
             <div class="flex flex-column justify-between">
               <div>
                 <amp-img class="commerce-listing-product-image mb2" src="{{image}}" width="340" height="340" layout="responsive" alt="{{ name }}" noloading=""><div placeholder="" class="commerce-loader"></div></amp-img>
                 <h2 class="commerce-listing-product-name h6">{{ name }}</h2>
                 {{ description }}
               </div>
-              <div class="h6 mt1">{{ price }} AED</div>
+              <div class="h6 mt1">{{ price }} AED
+                {{#url}}
+                  <a href="{{ url }}" target="_blank" >
+                    <amp-img class="open-icon" src="../img/logos/{{ source }}.png" width="20" height="20" />
+                  </a>
+                {{/url}}
+              </div>
             </div>
-          </a>
+          </div>
           {{/items}}
           {{^items}}
             <div class="flex flex-column justify-between">
               <div>
-                <h2 class="commerce-listing-product-name h6">No items founds.</h2>
+                <h2 class="commerce-listing-product-name h6">No items founds<span [text]="' in' + products.source"></span></h2>
               </div>
             </div>
           {{/items}}
@@ -326,20 +327,18 @@
         <div overflow>
           <button class="ampstart-btn ampstart-btn-secondary caps">Show more</button>
         </div>
+        <div fallback>Failed to load data. Please try again later.</div>
+        <div placeholder>Loading ...</div>
+        <amp-list-load-more load-more-failed>
+        </amp-list-load-more>
+        <amp-list-load-more load-more-end>
+          <div class="flex flex-column justify-between">
+            <div>
+              <h2 class="commerce-listing-product-name h6">No more items to display</h2>
+            </div>
+          </div>
+        </amp-list-load-more>
       </amp-list>
-      <div class="navigation">
-        <button class="prev ampstart-btn ampstart-btn-secondary caps"
-          hidden
-          [hidden]="products.pageNumber < 2"
-          on="tap: AMP.setState({products: { pageNumber: products.pageNumber - 1 }})">
-          Previous
-        </button>
-        <button class="next ampstart-btn ampstart-btn-secondary caps"
-          [hidden]="items ? products.pageNumber >= items.length : false"
-          on="tap: AMP.setState({products: { pageNumber: products.pageNumber ? products.pageNumber + 1 : 2 }})">
-          Next
-        </button>
-      </div>
     </div>
   </section>
   </main>
@@ -348,6 +347,7 @@
 <footer class="commerce-footer center">
   <nav class="mx-auto md-mb0 md-pt5 md-pb5">
     <ul class="list-reset flex flex-wrap my0 md-pl4 md-pr4 md-mxn4">
+    <!--
       <li class="pt3 md-pt0 md-px4 col-12 md-col-3 lg-col-2">
           <h2 class="commerce-footer-header h7 pb2">About us</h2>
           <ul class="list-reset pb3 md-mx0">
@@ -362,19 +362,20 @@
               </li>
           </ul>
         <hr class="md-hide lg-hide col-12 mx0">
-      </li>
+      </li>-->
       <li class="pt3 md-pt0 md-px4 col-12 md-col-3 lg-col-2">
           <h2 class="commerce-footer-header h7 pb2">Contact Us</h2>
           <ul class="list-reset pb3 md-mx0">
               <li>
-                <a class="text-decoration-none" href="tel:+440000000000">+44(0)000 000 0000</a>
+                <a class="text-decoration-none" href="tel:+971503314578">+971 50 3314578</a>
               </li>
               <li>
-                <a class="text-decoration-none" href="mailto:info@BS-LDN">info@BS-LDN</a>
+                <a class="text-decoration-none" href="mailto:viraj.ranjankumar+rav@gmail.com">viraj.ranjankumar@gmail.com</a>
               </li>
+              <!--
               <li>
                 <a class="text-decoration-none" href="#">Find a Store</a>
-              </li>
+              </li>-->
           </ul>
         <hr class="md-hide lg-hide col-12 mx0">
       </li>

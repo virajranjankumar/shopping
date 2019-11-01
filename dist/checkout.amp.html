@@ -13,20 +13,29 @@
   
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <meta name="amp-google-client-id-api" content="googleanalytics">
-
-  <script async="" src="https://cdn.ampproject.org/v0.js"></script>
+  <meta name="amp-experiments-opt-in" content="experiment-a,experiment-b">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
   
-<style amp-boilerplate="">  body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
+<style amp-boilerplate="">.open-icon {
+  margin-right: 20px;
+  float: right;
+}
+body{
+    -webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    -moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    -ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;
+    animation:-amp-start 8s steps(1,end) 0s 1 normal both
+  }@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
 </style>
 <noscript>
 <style amp-boilerplate="">body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style>
 </noscript>
-<script custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js" async=""></script>
-<script custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js" async=""></script>
-<script custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js" async=""></script>
-<script custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js" async=""></script>
-<script custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js" async=""></script>
-<script custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js" async=""></script>
+<script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+<script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+<script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+<script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+<script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
+<script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
 <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
 <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
 <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
@@ -46,21 +55,6 @@
       <a href="landing.amp.html" class="text-decoration-none inline-block mx-auto ampstart-headerbar-home-link mb1 md-mb0 ">
         <amp-img src="../img/e-commerce/logo.png" width="96" height="27" layout="fixed" class="my0 mx-auto " alt=""></amp-img>
       </a>
-    <!--
-      TODO: currently "fixeditems" is an array, therefore it's not possible to
-      add additional classes to it. An alternative solution would be to make it
-      an oject, with a "classes" and "items" sub-properties:
-     "fixeditems": {
-       "classes": "col-3",
-       "items": [{
-         "link": {
-           "url": "mailto:contact@lune.com",
-           "text": "—contact@lune.com",
-           "classes": "xs-small sm-hide h6 bold"
-         }
-       }]
-     }
-     -->
     <div class="ampstart-headerbar-fixed center m0 p0 flex justify-center nowrap absolute top-0 right-0 pt2 pr3">
       <div class="mr2">
       </div>
@@ -202,12 +196,12 @@
             
 
 <div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change: AMP.setState({cart: {total: 723, shipping: 0}})'>
-    <input type="radio" value="" name="delivery-method" id="delivery-method-1" class="relative" checked="">
+    <input type="radio" value="" name="delivery-method" id="delivery-method-1" class="relative" checked="" [checked]="products.delivery-method == 'standard (arrives in 2-3 days) - free' ? checked : '' ">
     <label for="delivery-method-1" class="" aria-hidden="true">Standard (arrives in 2-3 days) - FREE</label>
 </div>
 
 <div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on='change:AMP.setState({cart: {total: 753, shipping: 30}})'>
-    <input type="radio" value="" name="delivery-method" id="delivery-method-2" class="relative" >
+    <input type="radio" value="" name="delivery-method" id="delivery-method-2" class="relative"  [checked]="products.delivery-method == 'express (arrives next day) - aed 30' ? checked : '' ">
     <label for="delivery-method-2" class="" aria-hidden="true">Express (arrives next day) - AED 30</label>
 </div>
 
@@ -219,36 +213,53 @@
       <hr class="xs-hide sm-hide mt2 ml2">
       <div class="mt2 px2">
         <h1 class="h5 xs-hide sm-hide">Your Basket</h1>
-        
+        <amp-list
+  class="mx1 md-mxn1" 
+  src="//localhost:8080/api/cart-items"
+  height="400" width="300" layout="responsive"
+  single-item reset-on-refresh binding="no"
+  items=".">
+  <template type="amp-mustache">
+    {{#isEmpty}}
     <div class="commerce-cart-item flex flex-wrap items-center mx2 mb2 md-mx4 md-mt3 md-pb3">
       <div class="col-3 sm-col-2 md-col-2 lg-col-2">
-        <amp-img class="commerce-cart-item-image" src="../../img/e-commerce/product/product-8.jpg" width="1" height="1" layout="responsive" alt="Caliper Brakes" noloading=""><div placeholder="" class="commerce-loader"></div></amp-img>
+        <amp-img class="commerce-cart-item-image" src="{{ src }}" width="1" height="1" layout="responsive" alt="{{ name }}" noloading=""><div placeholder="" class="commerce-loader"></div></amp-img>
       </div>
       <div class="commerce-cart-item-desc px1 col-6 sm-col-7 md-col-7 lg-col-7">
-        <div class="h6 mb1">Caliper Brakes</div>
-        <div>Fits most wheel sizes and designed to last long.</div>
+        <div class="h6 mb1">{{ name }}</div>
+        <div>{{ description }}</div>
       </div>
       <div class="commerce-cart-item-price col-3 h6 flex flex-wrap justify-around items-start">
-        <span>349 AED</span>
-        <span>1</span>
+        <span>{{ price }} AED</span>
+        <span>{{ quantity }}</span>
         <div role="button" class="inline-block commerce-cart-icon" tabindex="0">✕</div>
       </div>
     </div>
+    {{/isEmpty}}
+    {{^isEmpty}}
+    <div class="commerce-cart-item flex flex-wrap items-center mx2 mb2 md-mx4 md-mt3 md-pb3">
+        <div class="commerce-cart-item-desc px1 col-6 sm-col-7 md-col-7 lg-col-7">
+          <h2 class="h6 mb1">No items in your basket.</h2>
+        </div>
+      </div>
+    {{/isEmpty}}
+  </template>
+</amp-list>
+    <amp-state id="cartItemsList" src="//localhost:8080/api/cart-items">
+        <script type="application/json">
+        {
 
-    <div class="commerce-cart-item flex flex-wrap items-center mx2 mb2 md-mx4 md-mt3 md-pb3">
-      <div class="col-3 sm-col-2 md-col-2 lg-col-2">
-        <amp-img class="commerce-cart-item-image" src="../../img/e-commerce/product/product-1.jpg" width="1" height="1" layout="responsive" alt="Sprocket Set" noloading=""><div placeholder="" class="commerce-loader"></div></amp-img>
-      </div>
-      <div class="commerce-cart-item-desc px1 col-6 sm-col-7 md-col-7 lg-col-7">
-        <div class="h6 mb1">Sprocket Set</div>
-        <div>Steel, designed for long lasting stability.</div>
-      </div>
-      <div class="commerce-cart-item-price col-3 h6 flex flex-wrap justify-around items-start">
-        <span>470 AED</span>
-        <span>1</span>
-        <div role="button" class="inline-block commerce-cart-icon" tabindex="0">✕</div>
-      </div>
-    </div>
+        }
+        </script>
+    </amp-state>
+
+    <amp-state id="itemToRemove">
+        <script type="application/json">
+        {
+
+        }
+        </script>
+    </amp-state>
 
         <div class="commerce-checkout-actions center">
           <a href="checkout-success.amp.html" class="ampstart-btn ampstart-btn-secondary caps mt3">Continue</a>
@@ -273,6 +284,7 @@
 <footer class="commerce-footer center">
   <nav class="mx-auto md-mb0 md-pt5 md-pb5">
     <ul class="list-reset flex flex-wrap my0 md-pl4 md-pr4 md-mxn4">
+    <!--
       <li class="pt3 md-pt0 md-px4 col-12 md-col-3 lg-col-2">
           <h2 class="commerce-footer-header h7 pb2">About us</h2>
           <ul class="list-reset pb3 md-mx0">
@@ -287,19 +299,20 @@
               </li>
           </ul>
         <hr class="md-hide lg-hide col-12 mx0">
-      </li>
+      </li>-->
       <li class="pt3 md-pt0 md-px4 col-12 md-col-3 lg-col-2">
           <h2 class="commerce-footer-header h7 pb2">Contact Us</h2>
           <ul class="list-reset pb3 md-mx0">
               <li>
-                <a class="text-decoration-none" href="tel:+440000000000">+44(0)000 000 0000</a>
+                <a class="text-decoration-none" href="tel:+971503314578">+971 50 3314578</a>
               </li>
               <li>
-                <a class="text-decoration-none" href="mailto:info@BS-LDN">info@BS-LDN</a>
+                <a class="text-decoration-none" href="mailto:viraj.ranjankumar+rav@gmail.com">viraj.ranjankumar@gmail.com</a>
               </li>
+              <!--
               <li>
                 <a class="text-decoration-none" href="#">Find a Store</a>
-              </li>
+              </li>-->
           </ul>
         <hr class="md-hide lg-hide col-12 mx0">
       </li>

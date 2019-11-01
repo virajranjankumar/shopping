@@ -22,6 +22,7 @@ app.use(sessions({
 
 //Configure amp-toolbox-cors for CORS.
 app.use(ampCors({ verifyOrigin: false }));
+app.use(express.static('dist'))
 
 const port = process.env.PORT || 8080;
 const listener = app.listen(port, () => {

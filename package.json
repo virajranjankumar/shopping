@@ -7,8 +7,7 @@
     "build": "gulp",
     "server:json": "node ./server/json_server.js",
     "server:web": "node ./server/web_server.js",
-    "server:http": "python3 -m http.server",
-    "start": "node ./server/json_server.js"
+    "start": "npm run server:web"
   },
   "repository": {
     "type": "git",

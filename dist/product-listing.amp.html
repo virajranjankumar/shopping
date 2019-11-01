@@ -195,11 +195,11 @@ body{
           
           <div class="commerce-select-wrapper inline-block md-mr1 pl2">
           <amp-state id="generalInventory"
-    [src]="'//localhost:3000/autocomplete?_limit=10&description_like=' + searchTerm"
-    src="//localhost:3000/autocomplete?_limit=10"></amp-state>
+    [src]="'https://imaginary-huckleberry.glitch.me/autocomplete?_limit=10&description_like=' + searchTerm"
+    src="https://imaginary-huckleberry.glitch.me/autocomplete?_limit=10"></amp-state>
 <form class="sample-form"
   method="post"
-  action-xhr="//localhost:3000/echo"
+  action-xhr="https://imaginary-huckleberry.glitch.me/echo"
   target="_top">
   <amp-autocomplete filter="substring" min-characters="3" filter-value="description"
     [src]="manualFilterData"
@@ -281,23 +281,22 @@ body{
       <amp-list
         id="list"
         class="mx1 md-mxn1" 
-        [src]="'//localhost:3000/' + 
-        products.source + 
-        '?_sort=price' + 
-        '&_order=' + products.filter + 
-        '&_page=' + products.pageNumber +
-        '&_limit=' + products.limit +
-        '&price_lte=' + products.price +
-        (products.query == '' ? '' : '&q=' + products.query)" 
-        src="//localhost:3000/all?_sort=price&_page=0&_limit=9&_order=desc" 
+        [src]="'https://imaginary-huckleberry.glitch.me/' +
+          products.source +
+          '?_sort=price' +
+          '&_order=' + products.filter +
+          '&_page=' + products.pageNumber +
+          '&_limit=' + products.limit +
+          '&price_lte=' + products.price +
+          (products.query == '' ? '' : '&q=' + products.query)"
+        src="https://imaginary-huckleberry.glitch.me/all?_sort=price&_page=0&_limit=9&_order=desc"
         height="1000" width="800" 
         layout="responsive"
         single-item reset-on-refresh binding="no"
         items="."
         load-more="auto"
         load-more-bookmark="next">
-        <template type="amp-mustache"
-        credentials="include">
+        <template type="amp-mustache">
           {{#items}}
           <div class="commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
             <div class="flex flex-column justify-between">

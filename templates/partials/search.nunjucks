@@ -1,9 +1,9 @@
 <amp-state id="generalInventory"
-    [src]="'//localhost:3000/autocomplete?_limit=10&description_like=' + searchTerm"
-    src="//localhost:3000/autocomplete?_limit=10"></amp-state>
+    [src]="'https://imaginary-huckleberry.glitch.me/autocomplete?_limit=10&description_like=' + searchTerm"
+    src="https://imaginary-huckleberry.glitch.me/autocomplete?_limit=10"></amp-state>
 <form class="sample-form"
   method="post"
-  action-xhr="//localhost:3000/echo"
+  action-xhr="https://imaginary-huckleberry.glitch.me/echo"
   target="_top">
   <amp-autocomplete filter="substring" min-characters="3" filter-value="description"
     [src]="manualFilterData"

@@ -2,13 +2,13 @@
   "name": "shopping",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/json_server.js",
   "scripts": {
     "build": "gulp",
     "server:json": "node ./server/json_server.js",
     "server:web": "node ./server/web_server.js",
     "server:http": "python3 -m http.server",
-    "start": "(npm run build) & (npm run server:json) & (npm run server:http)"
+    "start": "node ./server/json_server.js"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,5 @@
 const jsonServer = require('json-server')
 const path = require('path')
-// const autocomplete  = require('../templates/api/autocomplete.json');
 const requireJSON = f => require(`../deals/${f}.json`).map(o => ({...o, source: f}))
 const carrefour = requireJSON('carrefour');
 const choithrams = requireJSON('choithrams');
@@ -8,18 +7,14 @@ const unioncoop = requireJSON('unioncoop');
 const lulu = requireJSON('lulu');
 const emax = requireJSON('emax');
 const querystring = require('querystring');
-// const favorite = require('../deals/favorite.json');
 
-const [ port = 3000 ] = process.argv.slice(2);
+// const [ port = 3000 ] = process.argv.slice(2);
 
 const autocomplete = unioncoop.map(({description, name}) => ({description, name, source: 'unioncoop'} ))
                   .concat(lulu.map(({description, name}) => ({description, name, source: 'lulu'})))
                   .concat(emax.map(({description, name}) => ({description, name, source: 'emax'})))
                   .concat(choithrams.map(({description, name}) => ({description, name, source: 'choithrams'})))
                   .concat(carrefour.map(({description, name}) => ({description, name, source: 'carrefour'})))
-                  // .concat(Array.from(new Set(
-                  //   carrefour.reduce((acc, {category}) => 
-                  //     acc.concat(category.map(c => ({description: c, source: 'carrefour'}))), []))))
 
 const server = jsonServer.create()
 const router = jsonServer.router(function() {
@@ -47,8 +42,8 @@ server.use((req, res, next) => {
 })
 
 server.use(router)
-server.listen(port, () => {
-  console.log('JSON Server is running', port)
+const jsonListener = server.listen(process.env.DB_PORT, () => {
+  console.log('JSON Server is running', jsonListener.address().port)
 })
 
 router.render = (req, res) => {

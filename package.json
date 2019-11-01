@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "gulp",
+    "build": "gulp",
     "server:json": "node ./server/json_server.js",
     "server:web": "node ./server/web_server.js",
     "server:http": "python3 -m http.server",
-    "start": "(npm run server:json) & (npm run server:http)"
+    "start": "(npm run build) & (npm run server:json) & (npm run server:http)"
   },
   "repository": {
     "type": "git",

@@ -5,16 +5,14 @@ const carrefour = requireJSON('carrefour');
 const choithrams = requireJSON('choithrams');
 const unioncoop = requireJSON('unioncoop');
 const lulu = requireJSON('lulu');
-const emax = requireJSON('emax');
+const categories = requireJSON('categories');
 const querystring = require('querystring');
-
-// const [ port = 3000 ] = process.argv.slice(2);
 
 const autocomplete = unioncoop.map(({description, name}) => ({description, name, source: 'unioncoop'} ))
                   .concat(lulu.map(({description, name}) => ({description, name, source: 'lulu'})))
-                  .concat(emax.map(({description, name}) => ({description, name, source: 'emax'})))
                   .concat(choithrams.map(({description, name}) => ({description, name, source: 'choithrams'})))
                   .concat(carrefour.map(({description, name}) => ({description, name, source: 'carrefour'})))
+                  .concat(categories.map(({description, name}) => ({description, name, source: 'categories'})))
 
 const server = jsonServer.create()
 const router = jsonServer.router(function() {
@@ -23,9 +21,9 @@ const router = jsonServer.router(function() {
       carrefour,
       unioncoop,
       lulu,
-      emax,
       choithrams,
-      all: [].concat.apply([], [lulu, emax, carrefour, choithrams, unioncoop])
+      categories,
+      all: [].concat.apply([], [lulu, carrefour, choithrams, unioncoop])
   }
 }())
 const middlewares = jsonServer.defaults()
@@ -42,7 +40,7 @@ server.use((req, res, next) => {
 })
 
 server.use(router)
-const jsonListener = server.listen(process.env.DB_PORT, () => {
+const jsonListener = server.listen(process.env.PORT, () => {
   console.log('JSON Server is running', jsonListener.address().port)
 })
 

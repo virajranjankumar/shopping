@@ -1,4 +1,9 @@
-{"products": [
+{
+    "GA_MEASUREMENT_ID": "G-CFPTGBHP99",
+"json1_server_url": "https://imaginary-huckleberry.glitch.me",
+"json_server_url": "//localhost:3000",
+"startPrice": 50,
+"products": [
     {"src": "../img/e-commerce/product/product-1.jpg", "alt": "Sprocket Set"},
     {"src": "../img/e-commerce/product/product-2.jpg", "alt": "Fixie Blue"},
     {"src": "../img/e-commerce/product/product-3.jpg", "alt": "Chain set"},
@@ -114,20 +119,15 @@
       "label": "Union Coop",
       "value": "unioncoop",
       "onChange": "'change: AMP.setState({products: {source:\"unioncoop\", pageNumber: 0}})'"
-    },
-    {
-      "label": "emax",
-      "value": "emax",
-      "onChange": "'change: AMP.setState({products: {source:\"emax\", pageNumber: 0}})'"
     }
 ],
 "product_listing": [
     {
-        "label": "Price: High-Low",
+        "label": "High-Low",
         "value": "desc"
     },
     {
-        "label": "Price: Low-High",
+        "label": "Low-High",
         "value": "asc"
     }
 ],

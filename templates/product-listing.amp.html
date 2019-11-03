@@ -14,9 +14,10 @@
         "filter": "desc",
         "source": "all",
         "query": "",
-        "price": 15699,
+        "price": "<$ startPrice $>",
         "pageNumber": 0,
-        "limit": 9
+        "limit": 9,
+        "category": ""
       }
     </script>
   </amp-state>
@@ -29,8 +30,21 @@
       <div class="commerce-side-panel pt4 pr4 self-center">
         <h2 class="h5 mb2">From</h2>
           <$ i.radio("source", list_sources) $>
-        <h2 class="h5 mb2">Price &lt; <span [text]="products.price">15699</span></h2>
-          <$ i.range("price", min="1", max="15700", value="15699", onChange="'change: AMP.setState({products: {price: event.value, pageNumber: 0}})'") $>
+        <h2 class="h5 mb2">Price &lt; <span [text]="products.price"><$ startPrice $></span></h2>
+          <$ i.range("price", min="1", max="100", value="<$ startPrice $>", onChange="'change: AMP.setState({products: {price: event.value, pageNumber: 0}})'") $>
+        <h2 class="h5 mb2">Category</h2>
+        <amp-list
+          width="130"
+          height="200"
+          layout="responsive"
+          src="<$ json_server_url $>/categories?_page=0&_limit=4">
+          <template type="amp-mustache">
+            <div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on="change: AMP.setState({products: {source: 'all', category:'{{ label }}', pageNumber: 0}})">
+                <input type="radio" value="" name="category" id="{{label}}" class="relative">
+                <label for="{{label}}" class="" aria-hidden="true">{{label}}</label>
+            </div>
+        </template>
+        </amp-list>
       </div>
     </div>
     <div class="col-12 md-col-7 pt2 pb3 md-px4 md-pt1 md-pb7">
@@ -58,15 +72,16 @@
       <amp-list
         id="list"
         class="mx1 md-mxn1" 
-        [src]="'https://imaginary-huckleberry.glitch.me/' +
+        [src]="'<$ json_server_url $>/' +
           products.source +
           '?_sort=price' +
           '&_order=' + products.filter +
           '&_page=' + products.pageNumber +
           '&_limit=' + products.limit +
           '&price_lte=' + products.price +
+          (products.category == '' ? '' : '&category_like=\\b' + products.category + '\\b') +
           (products.query == '' ? '' : '&q=' + products.query)"
-        src="https://imaginary-huckleberry.glitch.me/all?_sort=price&_page=0&_limit=9&_order=desc"
+        src="<$ json_server_url $>/all?_sort=price&_order=desc&_page=0&_limit=9&price_lte=<$ startPrice $>"
         height="1000" width="800" 
         layout="responsive"
         single-item reset-on-refresh binding="no"
@@ -75,29 +90,22 @@
         load-more-bookmark="next">
         <template type="amp-mustache">
           {{#items}}
-          <div class="commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
+          <div class="viraj commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
             <div class="flex flex-column justify-between">
               <div>
-                <amp-img class="commerce-listing-product-image mb2" src="{{image}}" width="340" height="340" layout="responsive" alt="{{ name }}" noloading=""><div placeholder="" class="commerce-loader"></div></amp-img>
+                {{#url}}
+                  <a href="{{ url }}" target="_blank" >
+                    <amp-img class="commerce-listing-product-image mb2" src="{{image}}" width="340" height="340" layout="responsive" alt="{{ name }}" noloading=""><div placeholder="" class="commerce-loader"></div></amp-img>
+                  </a>
+                {{/url}}
                 <h2 class="commerce-listing-product-name h6">{{ name }}</h2>
                 {{ description }}
               </div>
               <div class="h6 mt1">{{ price }} AED
-                {{#url}}
-                  <a href="{{ url }}" target="_blank" >
-                    <amp-img class="open-icon" src="../img/logos/{{ source }}.png" width="20" height="20" />
-                  </a>
-                {{/url}}
+                <amp-img class="open-icon" src="/logos/{{ source }}.png" width="20" height="20" />
               </div>
             </div>
           </div>
-          {{/items}}
-          {{^items}}
-            <div class="flex flex-column justify-between">
-              <div>
-                <h2 class="commerce-listing-product-name h6">No items founds<span [text]="' in' + products.source"></span></h2>
-              </div>
-            </div>
           {{/items}}
         </template>
         <div overflow>

@@ -1,9 +1,9 @@
 <amp-state id="generalInventory"
-    [src]="'https://imaginary-huckleberry.glitch.me/autocomplete?_limit=10&description_like=' + searchTerm"
-    src="https://imaginary-huckleberry.glitch.me/autocomplete?_limit=10"></amp-state>
+    [src]="'<$ json_server_url $>/autocomplete?_limit=10&description_like=' + searchTerm"
+    src="<$ json_server_url $>/autocomplete?_limit=10"></amp-state>
 <form class="sample-form"
   method="post"
-  action-xhr="https://imaginary-huckleberry.glitch.me/echo"
+  action-xhr="<$ json_server_url $>/echo"
   target="_top">
   <amp-autocomplete filter="substring" min-characters="3" filter-value="description"
     [src]="manualFilterData"
@@ -43,7 +43,7 @@
           <amp-img class="trending"
             width="24"
             height="24"
-            src="../img/logos/trending.png"></amp-img>
+            src="/logos/trending.png"></amp-img>
           <span class="name-and-description">{{description}}</span>
         </div>
       {{/isInitial}}
@@ -53,7 +53,7 @@
             <amp-img class="trending"
                 width="24"
                 height="24"
-                src="../img/logos/{{source}}.png"></amp-img>
+                src="/logos/{{source}}.png"></amp-img>
             <span class="name-and-description"><b>{{name}}</b> <i>{{description}}</i></span>
         </div>
       {{/isInitial}}

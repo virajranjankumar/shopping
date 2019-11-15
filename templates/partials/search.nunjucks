@@ -1,68 +1,80 @@
 <amp-state id="generalInventory"
-    [src]="'<$ json_server_url $>/autocomplete?_limit=10&description_like=' + searchTerm"
-    src="<$ json_server_url $>/autocomplete?_limit=10"></amp-state>
-<form class="sample-form"
+    [src]="'<$ json_server_url $>/autocomplete?_limit=5&description_like=' + searchTerm"></amp-state>
+<amp-state id="initialInventory">
+  <script type="application/json">
+    {
+      "items": [{
+        "isInitial": "true",
+        "description": "apple"
+      }, {
+        "isInitial": "true",
+        "description": "grapes"
+      }, {
+        "isInitial": "true",
+        "description": "whole milk"
+      }, {
+        "isInitial": "true",
+        "description": "banana"
+      }]
+    }
+  </script>
+</amp-state>
+
+<form
   method="post"
-  action-xhr="<$ json_server_url $>/echo"
+  action-xhr="<$ json_server_url $>/searchTerms"
   target="_top">
-  <amp-autocomplete filter="substring" min-characters="3" filter-value="description"
+  <amp-autocomplete
+    filter="fuzzy"
+    filter-value="description"
     [src]="manualFilterData"
     on="select:AMP.setState({
-          products: { query: event.value, source: 'all', category: 'all' }
-        });">
-    <input type="search" name="product"
+        products: {
+          query: event.value,
+          pageNumber: 0,
+          category: 'all',
+          source: 'all'
+        },
+        price: {
+          inRange: false
+        }
+    })">
+    <input type="search" name="searchTerm"
       on="input-debounced:AMP.setState({
         manualFilterData: event.value.length == 0 ? initialInventory : generalInventory,
         searchTerm: event.value,
-        products: { query: event.value, source: 'all', category: 'all' }
+        products: {
+          query: event.value,
+          pageNumber: 0,
+          category: 'all',
+          source: 'all'
+        },
+        price: {
+          inRange: false
+        }
       });
       ">
-    <amp-state id="initialInventory">
-      <script type="application/json">
-        {
-          "items": [{
-            "isInitial": "true",
-            "description": "apple"
-          }, {
-            "isInitial": "true",
-            "description": "grapes"
-          }, {
-            "isInitial": "true",
-            "description": "whole milk"
-          }, {
-            "isInitial": "true",
-            "description": "banana"
-          }]
-        }
-      </script>
-    </amp-state>
     <template type="amp-mustache">
+      <div data-value="{{description}}" class="product">
       {{#isInitial}}
-        <div class="product"
-          data-value="{{description}}">
-          <amp-img class="trending"
-            width="24"
-            height="24"
-            src="/logos/trending.png"></amp-img>
-          <span class="name-and-description">{{description}}</span>
-        </div>
+        <amp-img class="trending"
+          width="24"
+          height="24"
+          src="/img/logos/trending.png"></amp-img>
+        <span class="name-and-description">{{description}}</span>
       {{/isInitial}}
       {{^isInitial}}
-        <div data-value="{{description}}"
-          class="product">
-            <amp-img class="trending"
-                width="24"
-                height="24"
-                src="/logos/{{source}}.png"></amp-img>
-            <span class="name-and-description"><b>{{name}}</b> <i>{{description}}</i></span>
-        </div>
+        <amp-img class="trending"
+            width="24"
+            height="24"
+            src="/img/logos/{{source}}.png"></amp-img>
+        <span class="name-and-description"><b>{{name}}</b> <i>{{description}}</i></span>
       {{/isInitial}}
+      </div>
     </template>
   </amp-autocomplete>
-  <div submit-success>
-    <template type="amp-mustache"></template>
-  </div>
+  <div submit-success></div>
   <div submit-error>
-    Error!
+    Error while searching
   </div>
 </form>

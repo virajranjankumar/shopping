@@ -1,8 +1,18 @@
 {
+    "title": "Compare Deals ⚡ Ravramas",
     "GA_MEASUREMENT_ID": "G-CFPTGBHP99",
-"json1_server_url": "https://imaginary-huckleberry.glitch.me",
-"json_server_url": "//localhost:3000",
-"startPrice": 50,
+    "WHATSAPP_MESSAGE": "Request a feature!",
+    "description": "Find the latest deals from around Dubai in one place!",
+    "json1_server_url": "https://imaginary-huckleberry.glitch.me",
+    "json2_server_url": "https://humane-fine.glitch.me",
+    "json_server_url": "//localhost:3000",
+    "startPrice": 10,
+    "priceRanges":  [
+        [1, 10], [10, 50], [50, 100],
+        [100, 500], [500, 1000],
+        [1000, 5000], [5000, 10000],
+        [1000, 15000]
+    ],
 "products": [
     {"src": "../img/e-commerce/product/product-1.jpg", "alt": "Sprocket Set"},
     {"src": "../img/e-commerce/product/product-2.jpg", "alt": "Fixie Blue"},
@@ -97,28 +107,23 @@
     {
         "label": "All",
         "value": "all",
-        "onChange": "'change: AMP.setState({products: {source:\"all\", pageNumber: 0}})'",
         "selected": true
     },
     {
         "label": "Lulu",
-        "value": "lulu",
-        "onChange": "'change: AMP.setState({products: {source:\"lulu\", pageNumber: 0}})'"
+        "value": "lulu"
     },
     {
         "label": "Carrefour",
-        "value": "carrefour",
-        "onChange": "'change: AMP.setState({products: {source:\"carrefour\", pageNumber: 0}})'"
+        "value": "carrefour"
     },
     {
         "label": "Choithrams",
-        "value": "choithrams",
-        "onChange": "'change: AMP.setState({products: {source:\"choithrams\", pageNumber: 0}})'"
+        "value": "choithrams"
     },
     {
       "label": "Union Coop",
-      "value": "unioncoop",
-      "onChange": "'change: AMP.setState({products: {source:\"unioncoop\", pageNumber: 0}})'"
+      "value": "unioncoop"
     }
 ],
 "product_listing": [

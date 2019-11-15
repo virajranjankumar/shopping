@@ -18,7 +18,6 @@
         binding="always">
         <template type="amp-mustache">
             <input type="submit"
-            name="viraj"
             [value]="favorite ? '♥️' : '♡'"
             value='♡'
             aria-label="Favorite Toggle">

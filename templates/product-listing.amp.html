@@ -1,73 +1,224 @@
 {% extends "layout.nunjucks" %}
 
 {% block canonical %}
-{% import "macros/canonical.nunjucks" as m %}
-<$ m.canonical('product-landing') $>
+<link rel="canonical" href="https://ravramas.github.io/index.html">
+{% endblock %}
+
+{% block ampscripts %}
+{% macro custom(name, value='1') %}
+<script async custom-element="amp-<$ name $>" src="https://cdn.ampproject.org/v0/amp-<$ name $>-0.<$ value $>.js"></script>
+{% endmacro %}
+
+<$  custom('form') $>
+<$  custom('autocomplete') $>
+<$  custom('list') $>
+<$  custom('position-observer') $>
+<$  custom('animation') $>
 {% endblock %}
 
 {% block content %}
 {% import "macros/inputs.nunjucks" as i %}
   <main id="content" role="main" class="main commerce-listing">
+  {% include "partials/goto_top.nunjucks" %}
+  <amp-state id="price">
+    <script type="application/json">
+      {
+        "current": "<$ priceRanges[0][1] $>",
+        "min": "<$ priceRanges[0][0] $>",
+        "max": "<$ priceRanges[0][1] $>",
+        "inRange": "true"
+      }
+    </script>
+  </amp-state>
   <amp-state id="products">
     <script type="application/json">
       {
         "filter": "desc",
         "source": "all",
         "query": "",
-        "price": "<$ startPrice $>",
-        "pageNumber": 0,
-        "limit": 9,
-        "category": ""
+        "pageNumber": 1,
+        "limit": 20,
+        "category": "all"
       }
     </script>
   </amp-state>
   <!--
   <amp-img class="commerce-listing-banner xs-hide sm-hide" src="../img/e-commerce/wide-listings-hero.jpg" width="2560" height="400" layout="responsive" alt="Product listing" noloading="">
     <div placeholder="" class="commerce-loader"></div>
-  </amp-img>-->
-  <section class="commerce-listing-content mx-auto flex flex-wrap pb4">
+  </amp-img>
+  -->
+  <section class="commerce-listing-content mx-auto flex flex-wrap pb4 target">
+    <a class="target-anchor" id="top"></a>
     <div class="col-3 xs-hide sm-hide flex flex-column">
       <div class="commerce-side-panel pt4 pr4 self-center">
         <h2 class="h5 mb2">From</h2>
           <$ i.radio("source", list_sources) $>
-        <h2 class="h5 mb2">Price &lt; <span [text]="products.price"><$ startPrice $></span></h2>
-          <$ i.range("price", min="1", max="100", value="<$ startPrice $>", onChange="'change: AMP.setState({products: {price: event.value, pageNumber: 0}})'") $>
+        <h2 class="h5 mb2">Price: <span [text]="price.current"><$ startPrice $></span> AED</h2>
+        <div class="ampstart-input inline-block relative m0 p0 mb3 "
+          on='change: AMP.setState({
+            products: { pageNumber: 0 },
+            price: { current: +event.value, inRange: true }
+          }),
+          top.scrollTo(duration=200)'>
+          <input type="range" name="price" id="price"
+            min="1"  [min]="+price.min + 1"
+            max="10" [max]="+price.max"
+            value="<$ startPrice $>" [value]="price.current" 
+            class="block border-none p0 m0">
+        </div>
         <h2 class="h5 mb2">Category</h2>
         <amp-list
-          width="130"
-          height="200"
-          layout="responsive"
+          layout="fixed-height"
+          height="25"
+          single-item
+          items="."
+          noloading
           src="<$ json_server_url $>/categories?_page=0&_limit=4">
           <template type="amp-mustache">
-            <div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on="change: AMP.setState({products: {source: 'all', category:'{{ label }}', pageNumber: 0}})">
-                <input type="radio" value="" name="category" id="{{label}}" class="relative">
-                <label for="{{label}}" class="" aria-hidden="true">{{label}}</label>
-            </div>
-        </template>
+            <select name="category" id="category" class="commerce-select h6 md-h7"
+              on="change: AMP.setState({
+                products: {
+                  category: event.value,
+                  pageNumber: 0
+                }
+              }),
+              top.scrollTo(duration=200)">
+              <option selected [selected]="products.category == 'all'" value="">All</option>
+              {{#items}}
+                <option [selected]="products.category == '{{label}}'" value="{{label}}" >{{label}}</option>
+              {{/items}}
+            </select>
+          </template>
         </amp-list>
+        <h2 class="h5 mb2">Price Range</h2>
+        <select name="priceRange" id="priceRange" class="commerce-select h6 md-h7"
+          on="change: AMP.setState({
+            products: { pageNumber: 0 },
+            price: {
+              current: +event.value.split('-')[0] + (+event.value.split('-')[1]-event.value.split('-')[0])/2,
+              min: +event.value.split('-')[0],
+              max: +event.value.split('-')[1],
+              inRange: true
+            }
+          }),
+          top.scrollTo(duration=200)">
+          {% for low, high in priceRanges %}
+            <option
+              value="<$ low $>-<$ high $>"
+              [selected]="price.min >= <$ low $> && price.max <= <$ high $>">
+              <$ low $>-<$ high $>
+            </option>
+          {% endfor %}
+            <option
+              value="0-100000"
+              selected
+              [selected]="price.min >= 0 && price.max <= 100000">
+              Any
+            </option>
+        </select>
       </div>
     </div>
     <div class="col-12 md-col-7 pt2 pb3 md-px4 md-pt1 md-pb7">
       <div class="md-commerce-header relative md-flex flex-wrap items-center md-mx0 md-mb2">
         <h1 class="h3 mb2 md-mt2 md-mb2 md-ml0 flex-auto px2">Products</h1>
         <div class="commerce-listing-filters pt2 pb2 mb3 md-mb0">
-          <div class="commerce-select-wrapper inline-block md-mr1 pl2 md-hide lg-hide">
-            <label for="source" class="bold caps h6 md-h7">From:</label>
-            <select name="source" id="source" class="commerce-select h6 md-h7" on="change: AMP.setState({products: {source: event.value, pageNumber: 0}})">
-            <$ i.option("source", list_sources) $>
-            </select>
-          </div>
-          
           <div class="commerce-select-wrapper inline-block md-mr1 pl2">
           {% include "partials/search.nunjucks" %}
           </div>
+          <div class="commerce-select-wrapper inline-block md-mr1 pl2 md-hide lg-hide">
+            <label for="source" class="bold caps h6 md-h7">From:</label>
+            <select name="source" id="source" class="commerce-select h6 md-h7" 
+              on="change: AMP.setState({
+                products: { source: event.value, pageNumber: 0 }
+              })">
+            <$ i.option("source", list_sources) $>
+            </select>
+          </div>
+          <div class="commerce-select-wrapper inline-block md-mr1 pl2 md-hide lg-hide">
+            <label for="priceRange" class="bold caps h6 md-h7">Price Range:</label>
+            <select name="priceRange" id="priceRange" class="commerce-select h6 md-h7"
+              on="change: AMP.setState({
+                products: { pageNumber: 0 },
+                price: {
+                  current: +event.value.split('-')[0] + (+event.value.split('-')[1]-event.value.split('-')[0])/2,
+                  min: +event.value.split('-')[0],
+                  max: +event.value.split('-')[1],
+                  inRange: true
+                }
+              })">
+              {% for low, high in priceRanges %}
+                <option value="<$ low $>-<$ high $>"
+                  [selected]="price.min >= <$ low $> && price.max <= <$ high $>">
+                  <$ low $>-<$ high $>
+                </option>
+              {% endfor %}
+            </select>
+          </div>
           <div class="commerce-select-wrapper inline-block md-mr1 pl2">
             <label for="price" class="bold caps h6 md-h7">Sort by:</label>
-            <select name="price" id="price" class="commerce-select h6 md-h7" on="change: AMP.setState({products: {filter: event.value}})">
+            <select name="price" id="price" class="commerce-select h6 md-h7"
+              on="change: AMP.setState({products: {filter: event.value, pageNumber: 0}})">
               <$ i.option("price", product_listing) $>
             </select>
           </div>
+          <div class="commerce-select-wrapper inline-block md-mr1 pl2 md-hide lg-hide">
+            <label for="priceRange" class="bold caps h6 md-h7">Price: <span [text]="price.current"><$ startPrice $></span> AED</label>
+            <input type="range" name="price" id="price"
+              min="1"  [min]="+price.min + 1"
+              max="10" [max]="+price.max"
+              value="<$ startPrice $>" [value]="price.current" 
+              on='change: AMP.setState({
+                products: { pageNumber: 0 },
+                price: { current: +event.value, inRange: true }
+              })'
+              class="block border-none p0 m0">
+          </div>
+          <div class="commerce-select-wrapper md-mr1 pl2 md-hide lg-hide">
+            <label for="category" class="bold caps h6 md-h7">Category:</label>
+            <amp-list
+              layout="fixed-height"
+              height="25"
+              single-item
+              items="."
+              noloading
+              src="<$ json_server_url $>/categories?_page=0&_limit=4">
+              <template type="amp-mustache">
+                <select name="category" id="category" class="commerce-select h6 md-h7"
+                  on="change: AMP.setState({
+                    products: {
+                      category: event.value,
+                      pageNumber: 0
+                    }
+                  })">
+                  <option value="" selected [selected]="products.category == 'all'">All</option>
+                  {{#items}}
+                    <option [selected]="products.category == '{{label}}'" value="{{label}}">{{label}}</option>
+                  {{/items}}
+                </select>
+              </template>
+            </amp-list>
+          </div>
         </div>
+      </div>
+      <div [hidden]='products.pageNumber == 0'>
+      {% for item in initial_list %}
+        <div class="commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
+          <div class="flex flex-column justify-between">
+            <div>
+                <a href="<$ item.url $>" target="_blank" >
+                  <amp-img class="commerce-listing-product-image mb2" src="<$ item.image $>" width="340" height="340" layout="responsive" alt="<$ item.name $>" noloading="">
+                    <div placeholder="" class="commerce-loader"></div>
+                  </amp-img>
+                </a>
+              <h2 class="commerce-listing-product-name h6"><$ item.name $></h2>
+              <$ item.description $>
+            </div>
+            <div class="h6 mt1"><$ item.price $> AED
+              <amp-img class="open-icon" src="/img/logos/<$ item.source $>.png" width="20" height="20" />
+            </div>
+          </div>
+        </div>
+      {% endfor %}
       </div>
       <amp-list
         id="list"
@@ -78,19 +229,22 @@
           '&_order=' + products.filter +
           '&_page=' + products.pageNumber +
           '&_limit=' + products.limit +
-          '&price_lte=' + products.price +
-          (products.category == '' ? '' : '&category_like=\\b' + products.category + '\\b') +
+          (price.inRange ? '&price_lte=' + price.current : '') +
+          (price.inRange ? '&price_gte=' + price.min : '') +
+          (products.category == 'all' ? '' : '&category_like=\\b' + products.category + '\\b') +
           (products.query == '' ? '' : '&q=' + products.query)"
-        src="<$ json_server_url $>/all?_sort=price&_order=desc&_page=0&_limit=9&price_lte=<$ startPrice $>"
-        height="1000" width="800" 
+        src="<$ json_server_url $>/all?_sort=price&_order=desc&_page=1&_limit=20&price_lte=<$ startPrice $>"
+        height="800" width="800" 
         layout="responsive"
-        single-item reset-on-refresh binding="no"
+        single-item
+        reset-on-refresh
+        binding="no"
         items="."
         load-more="auto"
         load-more-bookmark="next">
         <template type="amp-mustache">
           {{#items}}
-          <div class="viraj commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
+          <div class="commerce-listing-product text-decoration-none inline-block col-6 md-col-4 lg-col-3 px1 mb2 md-mb4 relative">
             <div class="flex flex-column justify-between">
               <div>
                 {{#url}}
@@ -102,7 +256,7 @@
                 {{ description }}
               </div>
               <div class="h6 mt1">{{ price }} AED
-                <amp-img class="open-icon" src="/logos/{{ source }}.png" width="20" height="20" />
+                <amp-img class="open-icon" src="/img/logos/{{ source }}.png" width="20" height="20" />
               </div>
             </div>
           </div>
@@ -111,16 +265,36 @@
         <div overflow>
           <button class="ampstart-btn ampstart-btn-secondary caps">Show more</button>
         </div>
-        <div fallback>Failed to load data. Please try again later.</div>
-        <div placeholder>Loading ...</div>
+        <div fallback>Failed to load products. Please try again later.</div>
         <amp-list-load-more load-more-failed>
+          <div>Sorry, loading Products Information failed</div>
+          <button load-more-clickable>Click to reload</button>
         </amp-list-load-more>
         <amp-list-load-more load-more-end>
-          <div class="flex flex-column justify-between">
-            <div>
-              <h2 class="commerce-listing-product-name h6">No more items to display</h2>
-            </div>
-          </div>
+          <button
+            on="tap:top.scrollTo(duration=200)"
+            class="ampstart-btn ampstart-btn-secondary caps">
+            Please click here to go to the top
+          </button>
+          <button
+            on="tap:AMP.setState({
+              products: {
+                pageNumber: 0,
+                source: 'all',
+                query: '',
+                category: 'all'
+              },
+              price: {
+                current: <$ priceRanges[0][0] + (priceRanges[0][1] - priceRanges[0][0]) / 2 $>,
+                min: <$ priceRanges[0][0] $>,
+                max: <$ priceRanges[0][1] $>,
+                inRange: true
+              }
+            }),
+            top.scrollTo(duration=200)"
+            class="ampstart-btn ampstart-btn-secondary caps">
+            Reset selection
+          </button>
         </amp-list-load-more>
       </amp-list>
     </div>

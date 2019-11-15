@@ -22,33 +22,51 @@ const dateFilter = require('nunjucks-date-filter');
 const cleanCSS = require('gulp-clean-css');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
+const htmlmin = require('gulp-htmlmin');
+const jeditor = require('gulp-json-editor');
+const request = require('request');
+const source = require('vinyl-source-stream');
+const streamify = require('gulp-streamify');
+const querystring = require('querystring');
+
+const destination = 'ravramas.github.io'
 
 gulp.task('build', function () {
-  var manageEnvironment = function(environment) {
-    dateFilter.setDefaultFormat('Do MMMM YYYY');
-    environment.addFilter('date', dateFilter);
-  }
-    
-  return gulp.src('templates/*.amp.html')
-    .pipe(data(function() {
-      return require('./data.json')
-    }))
-    .pipe(nunjucksRender({
-      path: ['templates/'],
-      envOptions: {
-        tags: {
-          // blockStart: '<%',
-          // blockEnd: '%>',
-          variableStart: '<$',
-          variableEnd: '$>',
-          commentStart: '<#',
-          commentEnd: '#>'
-        }
-      },
-      manageEnv: manageEnvironment
-    }))
-    .pipe(autoScript())
-    .pipe(gulp.dest('dist'));
+    var manageEnvironment = function (environment) {
+        dateFilter.setDefaultFormat('Do MMMM YYYY');
+        environment.addFilter('date', dateFilter);
+    }
+
+    return gulp.src('templates/product-listing.amp.html')
+        .pipe(data(function () {
+            const data = require('./data.json')
+            data.initial_list = require('./templates/partials/api/initial_list.json');
+            return data
+        }))
+        .pipe(nunjucksRender({
+            path: ['templates/'],
+            envOptions: {
+                tags: {
+                    // blockStart: '<%',
+                    // blockEnd: '%>',
+                    variableStart: '<$',
+                    variableEnd: '$>',
+                    commentStart: '<#',
+                    commentEnd: '#>'
+                }
+            },
+            manageEnv: manageEnvironment
+        }))
+        .pipe(htmlmin({
+            collapseWhitespace: true,
+            minifyJS: true,
+            minifyCSS: true,
+            removeComments: true,
+            sortClassName: true
+        }))
+        .pipe(autoScript())
+        .pipe(rename('index.html'))
+        .pipe(gulp.dest(destination));
 });
 
 // gulp.task('watch', function() {
@@ -74,10 +92,10 @@ const paths = {
         src: 'src/html/pages/*.html',
         dest: 'dist/'
     },
-    // images: {
-    //     src: 'src/img/**/*.{gif,jpg,png,svg}',
-    //     dest: 'dist/img'
-    // },
+    images: {
+        src: 'img/**/*.{gif,jpg,png,svg}',
+        dest: destination + '/img'
+    },
     // favicon: {
     //     src: 'src/favicon/*',
     //     dest: 'dist/'
@@ -116,28 +134,69 @@ const paths = {
 // });
 
 gulp.task('styles-build-normalize', function buildStyles() {
-  return gulp.src('templates/partials/normalize_original.css')
-      .pipe(cleanCSS({compatibility: 'ie8'}))
-      .pipe(rename('normalize.css'))
-      .pipe(gulp.dest('templates/partials'))
+    return gulp.src('templates/partials/normalize_original.css')
+        .pipe(cleanCSS({ compatibility: 'ie8' }))
+        .pipe(rename('normalize.css'))
+        .pipe(gulp.dest('templates/partials'))
 });
 
 gulp.task('styles-build-boilerplate', function buildStyles() {
     return gulp.src('templates/partials/boilerplate_original.css')
-        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(cleanCSS({ compatibility: 'ie8' }))
         .pipe(rename('boilerplate.css'))
         .pipe(gulp.dest('templates/partials'))
 });
-  
+
 gulp.task('styles', gulp.series('styles-build-normalize', 'styles-build-boilerplate'));
 
 /**
  * Copies the images to the distribution.
  */
-// gulp.task('images', function buildImages() {
-//     return gulp.src(paths.images.src)
-//         .pipe(gulp.dest(paths.images.dest));
-// });
+gulp.task('images', function buildImages() {
+    return gulp.src(paths.images.src)
+        .pipe(gulp.dest(paths.images.dest));
+});
+
+const apiUrl = 'http://localhost:3000/'
+const headers = { 'User-Agent': 'request' }
+
+// const categories = requireJSON('categories');
+gulp.task('move-apis', function buildImages() {
+    return gulp.src('templates/api/*.json')
+        .pipe(gulp.dest(destination + '/api'));
+});
+
+gulp.task('initial_list', function () {
+    const query = {
+        '_sort': 'price',
+        '_order': 'desc',
+        '_limit': 20,
+        'price_lte': 5
+    }
+    return request({
+        url: apiUrl + 'all?' + querystring.stringify(query),
+        headers
+    })
+        .pipe(source('initial_list.json'))
+        .pipe(streamify(jeditor(({ items }) =>
+            items.map(({
+                name,
+                description,
+                price,
+                url,
+                image,
+                source
+            }) => ({
+                name,
+                description,
+                price,
+                url,
+                image,
+                source
+            })
+            ))))
+        .pipe(gulp.dest('templates/partials/api'));
+});
 
 /**
  * Copies the favicon to the distribution.
@@ -226,7 +285,7 @@ gulp.task('serve', function sync(done) {
     });
     done();
 });
-*/
+
 gulp.task('browser-sync', function sync(done) {
     bs.init(null, {
         proxy: "http://localhost:8080", // port of node server
@@ -243,7 +302,7 @@ gulp.task('nodemon', function (cb) {
         }
     });
 });
-
+*/
 /**
  * Sets up live-reloading: Changes to HTML or CSS trigger a rebuild, changes to
  * images, favicon, root config files and server only result in images, favicon, root config files, server and helper classes being copied again to dist.
@@ -269,4 +328,4 @@ gulp.task('watch', function watch(done) {
  * reloading.
  */
 // gulp.task('default', gulp.series('build', 'nodemon', 'browser-sync', 'watch'));
-gulp.task('default', gulp.series('build', 'watch'));
+gulp.task('default', gulp.series('styles', 'build', 'images', 'watch'));

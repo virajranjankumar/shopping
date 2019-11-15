@@ -7,8 +7,12 @@
 
 {% macro radio(name, items) %}
 {% for item in items %}
-<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 " on=<$ item.onChange | safe $>>
-    <input type="radio" value="" name="<$ name $>" id="<$ name $>-<$ loop.index $>" class="relative" {% if item.selected %}checked=""{% endif %} [checked]="products.<$ name $> == '<$ item.label | lower $>' ? checked : '' ">
+<div class="ampstart-input ampstart-input-radio inline-block relative m0 p0 mb3 "
+     on="change: AMP.setState({
+        products: {source: '<$ item.value $>', pageNumber: 0}
+      }),
+      top.scrollTo(duration=200)">
+    <input type="radio" value="<$ item.value $>" name="<$ name $>" id="<$ name $>-<$ loop.index $>" class="relative" {% if item.selected %}checked=""{% endif %} [checked]="products.<$ name $> == '<$ item.value $>'">
     <label for="<$ name $>-<$ loop.index $>" class="" aria-hidden="true"><$ item.label $></label>
 </div>
 {% endfor %}
@@ -16,7 +20,7 @@
 
 {% macro option(name, items) %}
 {% for item in items %}
-<option value="<$ item.value $>" {% if item.selected %}selected="selected"{% endif %} [selected]="products.<$ name $> == '<$ item.value $>' ? selected : '' "><$ item.label $></option>
+<option value="<$ item.value $>" {% if item.selected %}selected="selected"{% endif %} [selected]="products.<$ name $> == '<$ item.value $>'"><$ item.label $></option>
 {% endfor %}
 
 {% endmacro %}

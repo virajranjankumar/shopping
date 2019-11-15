@@ -1,0 +1,52 @@
+<amp-analytics type="googleanalytics" data-credentials="include">
+<script type="application/json">
+{
+  "vars" : {
+    "gtag_id": "<$ GA_MEASUREMENT_ID $>",
+    "config" : {
+      "<$ GA_MEASUREMENT_ID $>": {
+          "groups": "default",
+          "site_speed_sample_rate": 100
+      }
+    }
+  },
+  "triggers": {
+      "trackPageview": {
+          "on": "visible",
+          "request": "pageview"
+      },
+      "trackAnchorClicks": {
+        "on": "click",
+        "selector": "a",
+        "request": "event",
+        "vars": {
+          "eventCategory": "",
+          "eventAction": "",
+          "eventId": "clickOnAnyAnchor"
+        }
+      },
+      "scrollPings": {
+        "on": "scroll",
+        "scrollSpec": {
+          "verticalBoundaries": [10, 20, 30, 40, 50, 60, 70, 80, 90]
+        },
+        "request": "event",
+        "vars": {
+          "eventId": "scroll"
+        }
+      },
+      "pageTimer": {
+        "on": "timer",
+        "timerSpec": {
+          "interval": 10,
+          "maxTimerLength": 600
+        },
+        "request": "event",
+        "vars": {
+          "eventId": "timer"
+        }
+      }
+  }
+}
+</script>
+</amp-analytics>
